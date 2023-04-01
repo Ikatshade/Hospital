@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <link rel="stylesheet" href="sign.css">
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="innercontent">
+            <div class="card form2">
+                <div class="inside">
+                    <div class="head">
+                        <span><iconify-icon icon="mingcute:safety-certificate-fill"></iconify-icon></span>
+                    </div>
+                    <div class="form ">
+                        <h3>Sign up</h3>
+                        <form action="">
+
+                            <input type="text" name="" id="nom" class="inp" placeholder="name" required>
+                            <input type="text" name="" id="prenom" class="inp" placeholder="last name" required>
+                            <input type="date" name="" id="date" class="inp" placeholder="birthdate" required>
+                            <input type="text" name=""  id="tel" class="inp" placeholder="telephone" required>
+                            <input type="email" name=""  id="email" class="inp" placeholder="email" required>
+                            <input type="password" name="" class="inp" id="password" placeholder="Password" required>
+
+                            <div class="ch">
+                                <div class="r">
+                                    <input type="checkbox" class="chk" name="chk" id="">
+                                    <label for="chk">Remember Me</label>
+                                </div>
+                                <a href="">forgot password?</a>
+                            </div>
+
+                            <input type="submit" class="inp sub" value="Login">
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+
+const form = document.querySelector("form");
+const nom = document.getElementById("nom");
+const prenom = document.getElementById("prenom");
+const date_naissance = document.getElementById("date");
+const tel = document.getElementById("tel");
+const email = document.getElementById("email");
+const pass = document.getElementById("password")
+console.log(nom)
+console.log(prenom)
+console.log(date_naissance)
+console.log(password)
+
+class Patient {
+
+    constructor(nom,prenom,date_naissance,tel,email,pass){
+       this.nom = nom.value;
+       this.prenom = prenom.value;
+       this.date_naissance = date_naissance.value;
+       this.tel = tel.value;
+       this.email = email.value;
+       this.password = pass.value;
+       this.id = this.get().indexOf(this);
+       this.date = new Date().toLocaleTimeString()
+
+   }
+   get(){
+       if(localStorage.getItem("patients")){
+           return JSON.parse(localStorage.getItem("patients"))
+        }
+        else return []
+   }
+   add(){
+       const tablePatients = this.get();
+       const iD = "UT1" + (tablePatients.length + 101);
+       this.id = iD;
+       console.log(iD)
+
+       tablePatients.push(this);
+       localStorage.setItem("patients",JSON.stringify(tablePatients));
+       location.replace("./dashboard.html")
+   }
+}
+
+
+
+//Ecoute d'evenement sur le formulaire
+form?.addEventListener("submit", (e)=>{
+    console.log(nom)
+    e.preventDefault();
+        const patient = new Patient(nom,prenom,date_naissance,tel,email,pass);
+        console.log("1",nom,tel)
+        patient.add();
+
+    })
+    </script>
+</body>
+
+</html>

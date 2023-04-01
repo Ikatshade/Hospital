@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="sign.css">
@@ -19,8 +20,7 @@
             <div class="card">
                 <div class="inside">
                     <div class="head">
-                        <img src="img/R (1).png" alt="">
-                    </div>
+                        <span><iconify-icon icon="mingcute:safety-certificate-fill"></iconify-icon></span>                    </div>
                     <div class="form">
                         <h3>Login</h3>
                         <form action="">
@@ -34,6 +34,7 @@
                                     <label for="chk">Remember Me</label>
                                 </div>
                                 <a href="">forgot password?</a>
+                                <a href="signup.html"> create account</a>
                             </div>
 
                             <input type="submit" class="inp sub" value="Login">
@@ -46,64 +47,60 @@
     </div>
     <script>
 
+// const pass = document.getElementById("password");
+// const email = document.getElementById("email");
+const form = document.querySelector("form")
 
 
-     const userList = JSON.parse(localStorage.getItem('userList') )|| []
+
+ function get(){
+    if(localStorage.getItem("patients")){
+        return JSON.parse(localStorage.getItem("patients"))
+     }
+     else return []
+}
 
 
-        if(userList.length === 0){
-            const superuser = {
-            user_type: "1",
-            username: "superUser",
-            password: "00000",
-        };
 
-        userList.push(superuser);
-        alert('done')
-        window.localStorage.setItem("userList", JSON.stringify((userList)))
-        }
+form.addEventListener("submit",(e)=>{
+ 
+    e.preventDefault();
+    const email = document.getElementById('username').value;
+    const password = document.getElementById("pass").value;
+    
+    let tab = get();
+    
+    
+    
+    let result = document.getElementById("result")
+    
 
+
+    
+    tab = tab.filter(el => (el.email == email))
+    console.log(tab)
+        if(tab.length){
+            if(tab[0].password != password){
+                console.log("wrong password")
+                result.innerHTML="Mauvais mot de passe";
+                result.style.color ="orangered"
+            }
+            else{
+                console.log("bien connecté");
+                // let session = JSON.parse(localStorage.getItem("session"))?[]:[];
         
-        let form = document.querySelector("form");
-
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("pass").value;
-
-            const user = {
-                username: username,
-                password: password,
-            };
-
-            
-            let r
-            us = JSON.parse(localStorage.getItem("userList"));
-
-            us.forEach((element) => {
-                if (user.username === element.username && user.password === element.password) {
-                    r = element
-                }
-            });
-
-            if (typeof r != "undefined") {
-                console.log("user exists");
-
-                const session  = {
-                    user_type: r.user_type,
-                    username: r.username,
-                    password: r.password,
-                }
-
-                localStorage.setItem("session", JSON.stringify((session)))
-                window.location.replace("dashboard.html");
+                
+                window.location.href = "./dashboard.html";
+                
             }
-            else {
-                window.location.reload()
-                alert("nope")
-            }
-        });
-
+        }
+        else{
+            console.log("Username inexistant")
+            result.innerHTML="Email inexistant";
+            result.style.color ="red"
+        }
+        
+});
     </script>
 </body>
 
