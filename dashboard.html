@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@300;400;500;600;700&family=Croissant+One&family=Manrope:wght@200;300;400&family=Montserrat+Alternates:wght@300;400;500;600;700;800;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Mulish:wght@200;300;400;500;600;700;800;900;1000&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="innercontent">
+
+
+            <nav>
+                <div class="inner">
+                    <div class="menu-content">
+                        <div class="logo">
+                           <span><iconify-icon icon="mingcute:safety-certificate-fill"></iconify-icon></span>
+                        </div>
+                        <div class="menu">
+                            <a href="dashboard.html" class="active"><span><iconify-icon icon="material-symbols:home-rounded"></iconify-icon></span> <span class="tooltip">home</span></a>
+                            <a href="dashboard.html" class="clicked"><span><iconify-icon icon="material-symbols:home-rounded"></iconify-icon></span> <span class="tooltip">home</span></a>
+                            
+                        </div>
+                    </div>
+                    <div class="logout-b">
+                        <a href="sign.html" onclick="signout()"><iconify-icon icon="material-symbols:output-circle-rounded"
+                                rotate="270deg"></iconify-icon><span class="tooltip">Logout</span></a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="right-part">
+                <div class="mini-nav">
+                    <div class="col"><span class="num"></span> <span class="text"></span></div>
+                    <div class="col"><span class="num"></span> <span class="text"></span></div>
+                    <div class="col"><span class="num"></span> <span class="text"></span></div>
+                </div>
+                <div class="appointments">
+                    <div class="title">
+                        <span>Today's appointments</span>
+                    </div>
+                    <div class="elements">
+                        <table>
+                            <thead>
+                                <tr class="h">
+                                    <th width="30%">Name</th>
+                                    <th width="20%">Hour</th>
+                                    <th width="20%">Status</th>
+                                    <th width="15%"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="table-body"></tbody>
+
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <!-- <script>
+        const phoneInputField = document.querySelector("#number");
+        // const phoneInput = window.intlTelInput(phoneInputField, {
+        //     initialCountry: "ci",
+
+        //     utilsScript:
+        //         "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        // });
+
+        const currentuser = JSON.parse(localStorage.getItem('session'))
+        add = document.getElementById('add-b')
+        admin = document.getElementById('admin')
+
+        console.log(currentuser)
+
+
+        if (!(localStorage.hasOwnProperty('session'))) {
+            // if(!(currentuser in localStorage)){
+            window.location.replace("/sign.html")
+            alert('please entter your credentilas first')
+
+        }
+
+        else {
+
+
+            if (currentuser.user_type == "1") {
+                add.style.display = "none"
+
+            }
+            else {
+                admin.style.display = "none"
+            }
+
+
+        }
+
+        Array.prototype.random = function () {
+            return this[Math.floor((Math.random() * this.length))];
+        }
+
+        function randomPresence() {
+            lo = ["present", "late", "absent"]
+            return lo.random()
+        }
+
+        /* Open the form */
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        /* Close the form */
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+
+        function signout() {
+            localStorage.removeItem("session")
+        }
+
+
+        function getEmployee() {
+            return JSON.parse(localStorage.getItem('Employees')) || []
+        }
+
+        function EmployeeId() {
+            let li = getEmployee()
+            let maxId = 0;
+
+            li.forEach(employee => {
+                if (employee.id > maxId) {
+                    maxId = employee.id;
+                }
+            });
+
+            return maxId + 1 || 1;
+        }
+
+        function addemp() {
+            let fname = document.getElementById("fname").value;
+            let lname = document.getElementById("lname").value;
+            let birth = document.getElementById("birth").value;
+            let number = document.getElementById("number").value;
+            let resp = document.getElementById("responsibility").value;
+            let loc = document.getElementById("location").value;
+
+            const employee = {
+                id: EmployeeId(),
+                firstname: fname,
+                lastname: lname,
+                birthdate: birth,
+                number: number,
+                responsibility: resp,
+                location: loc,
+                tasks: []
+            }
+            emplist = getEmployee();
+            alert(emplist)
+            emplist.push(employee)
+            localStorage.setItem('Employees', JSON.stringify((emplist)))
+        }
+        function updateProgressBar(object) {
+            const completedTasks = tasks.filter((task) => task.completed == true).length;
+            const progress = (completedTasks / tasks.length) * 100;
+            progressbar = document.querySelector("progress-bar");
+            progressbar.style.width = progress + "%";
+        }
+
+
+        let emplist = getEmployee()
+        console.log(emplist)
+
+        let table = document.getElementById('table-body');
+        emplist.forEach(function (object) {
+            let s
+            if (object.tasks.length === 0) {
+                s = 'no tasks available'
+            } else {
+                s = object.tasks.length
+            }
+            let tr = document.createElement('tr');
+            tr.innerHTML = '<td width="25%" id ="name">' + object.firstname + ' ' + object.lastname + '</td>' +
+                '<td width="15%">' + randomPresence() + '</td>' +
+                '<td width="30%"><div class="progress-bar-container"><div class="progress-bar"></div></div></td>' +
+                '<td width="15%">' + s + '</td>';
+            '<td width="15%">' + object.tasks.length + '</td>';
+            table.appendChild(tr);
+            tr.addEventListener("click", function details() {
+                emp = {
+                    id: object.id,
+                    firstname: object.Firstname,
+                    Lastname: object.Lastname,
+                    birthdate: object.birthdate,
+                    number: object.number,
+                    responsibility: object.responsibility,
+                    location: object.location,
+                    tasks: object.tasks
+                }
+
+                localStorage.setItem("employee", JSON.stringify(emp))
+                window.location.replace("/profile.html")
+            }, false)
+
+        });
+
+    </script> -->
+</body>
+
+</html>
